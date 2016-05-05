@@ -1,8 +1,10 @@
 var express = require("express");
+var cors = require("cors");
 var mysql   = require("mysql");
 var bodyParser  = require("body-parser");
 var md5 = require('MD5');
 var app  = express();
+app.use(cors());
 
 var user = require("./controllers/user.js");
 var restaurant = require("./controllers/restaurant.js");

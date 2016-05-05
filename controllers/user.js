@@ -9,8 +9,12 @@ function REST_ROUTER(router,connection,md5, secretKey) {
 
 REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 
-    router.post("/users", function(req, res) {
-	var query = "INSERT INTO Base_User(FirstName, LastName, Email, Password, Phone, AddressPart1, IsFoodie) VALUES (" + utils.toString(req.body.firstName) + ", " + utils.toString(req.body.lastName)  + ", " + utils.toString(req.body.email) + ", " + utils.toString(md5(req.body.password))  + ", " + utils.toString(req.body.phone) + ", " + utils.toString(req.body.addressPart1) + ", " + req.body.isFoodie + ")";
+    router.post("/users", function(req, res, next) {
+	var query = "";
+	if (req.body.isFoodie === "1")
+	    query = query + "INSERT INTO Base_User(FirstName, LastName, Email, Password, Phone, AddressPart1, IsFoodie) VALUES (" + utils.toString(req.body.firstName) + ", " + utils.toString(req.body.lastName)  + ", " + utils.toString(req.body.email) + ", " + utils.toString(md5(req.body.password))  + ", " + utils.toString(req.body.phone) + ", " + utils.toString(req.body.addressPart1) + ", " + req.body.isFoodie + ")";
+	else
+	    query = query + "INSERT INTO Base_User(FirstName, Email, Password, Phone, AddressPart1, IsFoodie) VALUES (" + utils.toString(req.body.firstName) + ", " + utils.toString(req.body.email) + ", " + utils.toString(md5(req.body.password))  + ", " + utils.toString(req.body.phone) + ", " + utils.toString(req.body.addressPart1) + ", " + req.body.isFoodie + ")";
 	var table = [req.body.firstName,
 		     req.body.lastName,
 		     req.body.email,
@@ -67,7 +71,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.get("/users", function(req, res) {
+    router.get("/users", function(req, res, next) {
 	var query = "SELECT * FROM Base_User";
 	query = mysql.format(query, null);
 	connection.query(query, function(err, rows) {
@@ -80,7 +84,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
     
-    router.get("/users/:id", function(req, res) {
+    router.get("/users/:id", function(req, res, next) {
 	var query = "SELECT * FROM Base_User WHERE Id = ?";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
@@ -94,7 +98,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.put("/users", function(req, res) {
+    router.put("/users", function(req, res, next) {
 	utils.getToken(connection, req.body.id, function(response) {
 	    if (response === req.headers._token) {
 		nJwt.verify(response, secretKey, function(err, token) {
@@ -132,7 +136,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.delete("/users/:id", function(req, res) {
+    router.delete("/users/:id", function(req, res, next) {
 	 utils.getToken(connection, req.params.id, function(response) {
 	     if (response === req.headers._token) {
 		  nJwt.verify(response, secretKey, function(err, token) {
