@@ -7,6 +7,7 @@ var app  = express();
 var user = require("./controllers/user.js");
 var restaurant = require("./controllers/restaurant.js");
 var foodie = require("./controllers/foodie.js");
+var comment_restaurant = require("./controllers/comment_restaurant.js");
 
 var uuid = require('node-uuid');
 var secretKey = uuid.v4();
@@ -47,6 +48,7 @@ REST.prototype.configureExpress = function(connection) {
     var user_router = new user(router,connection,md5, secretKey);
     var restaurant_router = new restaurant(router, connection, md5, secretKey);
     var foodie_router = new foodie(router, connection, md5, secretKey);
+    var comment_restaurant_router = new comment_restaurant(router, connection, md5, secretKey);
     self.startServer();
 }
 

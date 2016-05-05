@@ -15,7 +15,7 @@ var getToken = function(connection, id, callback) {
         }
         else {
             return callback(rows[0].Token);
-        }
+        }	
     });
 }
 
