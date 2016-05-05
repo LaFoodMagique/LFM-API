@@ -131,6 +131,34 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	    }
 	});
     });
+
+    router.delete("/users/:id", function(req, res) {
+	 utils.getToken(connection, req.params.id, function(response) {
+	     if (response === req.headers._token) {
+		  nJwt.verify(response, secretKey, function(err, token) {
+		      if (err) {
+			  res.json({"Error": true, "Message" : "Your token is invalid"});
+		      }
+		      else {
+			  var query = "DELETE FROM Base_User WHERE Id = ?";
+			  var table = [parseInt(req.params.id)];
+			  query = mysql.format(query, table);
+			  connection.query(query, function(err, rows) {
+			      if (err) {
+				  res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+			      }
+			      else {
+				  res.json({"Error" : false, "Message" : "Deleted the user with id "+req.params.id});
+			      }
+			  });
+		      }
+		  });
+	     }
+	     else {
+		 res.json({"Error" : true, "Message" : "Your Token is invalid."});
+	     }
+	 });
+    });
     
     router.post('/login', function(req, res) {
 	var query = "SELECT * FROM Base_User WHERE email = ? and password = ?";
