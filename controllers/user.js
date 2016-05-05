@@ -100,7 +100,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 
     router.put("/users", function(req, res, next) {
 	utils.getToken(connection, req.body.id, function(response) {
-	    if (response === req.headers._token) {
+	    if (response === req.body._token) {
 		nJwt.verify(response, secretKey, function(err, token) {
 		    if (err) {
 			res.json({"Error": true, "Message" : "Your token is invalid"});
@@ -138,7 +138,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 
     router.delete("/users/:id", function(req, res, next) {
 	 utils.getToken(connection, req.params.id, function(response) {
-	     if (response === req.headers._token) {
+	     if (response === req.body._token) {
 		  nJwt.verify(response, secretKey, function(err, token) {
 		      if (err) {
 			  res.json({"Error": true, "Message" : "Your token is invalid"});
@@ -190,7 +190,29 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 			}
 			else {
 			    User.Token = token;
-			    res.json({"Error" : false, "Message" : "You are connected.", "User" : User});
+			    var query = "";
+			    if (User.IsFoodie) {
+				query = query + "SELECT Id FROM Foodie WHERE BaseUserId = ?";
+			    }
+			    else {
+				query = query + "SELECT Id FROM Restaurant WHERE BaseUserId = ?";
+			    }
+			    var table = [parseInt(User.Id)];
+			    query = mysql.format(query, table);
+			    connection.query(query, function(err, rows) {
+				if (err) {
+				    res.json({"Error" : true, "Message" : "Error exucuting MySQL query"});
+				}
+				else {
+				    if (User.IsFoodie) {
+					User.FoodieId = rows[0].Id;
+				    }
+				    else {
+					User.RestaurantId = rows[0].Id;
+				    }
+				    res.json({"Error" : false, "Message" : "You are connected.", "User" : User});
+				}
+			    });
 			}
 		    });
 		}
