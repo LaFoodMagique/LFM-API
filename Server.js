@@ -11,6 +11,7 @@ var restaurant = require("./controllers/restaurant.js");
 var foodie = require("./controllers/foodie.js");
 var comment_restaurant = require("./controllers/comment_restaurant.js");
 var dish_restaurant = require("./controllers/dish.js");
+var menu_restaurant = require("./controllers/menu_restaurant.js");
 
 var uuid = require('node-uuid');
 var secretKey = uuid.v4();
@@ -53,6 +54,7 @@ REST.prototype.configureExpress = function(connection) {
     var foodie_router = new foodie(router, connection, md5, secretKey);
     var comment_restaurant_router = new comment_restaurant(router, connection, md5, secretKey);
     var dish_restaurant_router = new dish_restaurant(router, connection, md5, secretKey);
+    var menu_restaurant_router = new menu_restaurant(router, connection, md5, secretKey);
     self.startServer();
 }
 
