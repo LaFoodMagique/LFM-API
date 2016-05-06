@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS `Base_User`;
 CREATE TABLE `Base_User` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `FirstName` text NOT NULL,
-  `LastName` text NOT NULL,
+  `LastName` text,
   `Email` varchar(200) NOT NULL,
   `Password` text NOT NULL,
   `Phone` text NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `Base_User` (
   `Token` text,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Base_User_Id_uindex` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `Base_User` (
 
 LOCK TABLES `Base_User` WRITE;
 /*!40000 ALTER TABLE `Base_User` DISABLE KEYS */;
-INSERT INTO `Base_User` VALUES (17,'quentin','journet','qjournet2@gmail.com','toto1705//','012345678','12 rue gabriel péri',NULL,1,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiI3YTE4MTExNy1jMzExLTQzYTMtYmM5Ni05MjQ4OWRjNjBkYjkiLCJpYXQiOjE0NjI0MTA0NDgsImV4cCI6MTQ2MjQxNDA0OH0.jmi1WCvxdDBxmbanYfUzKrMiGdEyuPM6swcuudFy5-k');
+INSERT INTO `Base_User` VALUES (17,'quentin','journet','qjournet2@gmail.com','5fee5ae1c5da17ee54b56abaa45e9355','012345678','12 rue gabriel péri',NULL,1,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiJlNmVkNzg0NS0xZjQzLTQ3MjItYTJlZS00OWEyMTE0N2E5YTkiLCJpYXQiOjE0NjI0NTg1MzAsImV4cCI6MTQ2MjQ2MjEzMH0.bYVIJdCPbgyZuPKESYzIcTbYY2xXfebN5a-2c5arCv4'),(18,'restaurant','restaurant','restaurant@gmail.com','6d4b62960a6aa2b1fff43a9c1d95f7b2','0123465789','12 rue',NULL,0,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiI1YjA1MjE0Ny01YTRjLTQ4MWQtYmVkZS0wOGUwZWM1NTUzOTciLCJpYXQiOjE0NjI0NTQzOTgsImV4cCI6MTQ2MjQ1Nzk5OH0.PqU_2VjRUDoMWVYxN_VX4o9KUbK1_YeAnmTucKgskO8'),(19,'foodie','foodie','foodie@foodie.com','889ea886e748fbd3dd317130a609f993','125489','dtc',NULL,1,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE5LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiJjNzEyNzFjMC1hNzI3LTQzZmUtYTA2Ny1mZGRhOTA0NDMwYjgiLCJpYXQiOjE0NjI1NTY2MTEsImV4cCI6MTQ2MjU2MDIxMX0.3XFPkNCu6RFHCzg7wA1YSP8YKYSlcqfLqlFr84pjZwA'),(20,'la bonne bouffe',NULL,'resto@resto.com','9c6350b0aa51300d30790de1192fbcf8','1246985','12 rue du resto',NULL,0,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiI0NTFlOWJkNS0wZDNjLTQ4MmUtYjA5YS1lYTA5MzRjYWE5MTMiLCJpYXQiOjE0NjI1NjA0MzQsImV4cCI6MTQ2MjU2NDAzNH0.kfTkJbU-fCnwkfwZtx5rjfcPgM-YAsuP_i7ziJnKvJo');
 /*!40000 ALTER TABLE `Base_User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,14 +134,14 @@ CREATE TABLE `Comment_Restaurant` (
   `RestaurantId` int(11) NOT NULL,
   `Comment` text,
   `Mark` int(11) NOT NULL,
-  `CreationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `CreationDate` datetime NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Comment_Restaurant_Id_uindex` (`Id`),
   KEY `Comment_Restaurant_Foodie_fk` (`FoodieId`),
   KEY `Comment_Restaurant_Restaurant_fk` (`RestaurantId`),
   CONSTRAINT `Comment_Restaurant_Foodie_fk` FOREIGN KEY (`FoodieId`) REFERENCES `Foodie` (`Id`),
   CONSTRAINT `Comment_Restaurant_Restaurant_fk` FOREIGN KEY (`RestaurantId`) REFERENCES `Restaurant` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,6 +150,7 @@ CREATE TABLE `Comment_Restaurant` (
 
 LOCK TABLES `Comment_Restaurant` WRITE;
 /*!40000 ALTER TABLE `Comment_Restaurant` DISABLE KEYS */;
+INSERT INTO `Comment_Restaurant` VALUES (2,7,1,'Bonjour',4,'2016-05-05 00:00:00'),(3,8,2,'I\'ll be back.\nPS - Malade en revenant',1,'2016-05-06 00:00:00'),(5,8,2,'Retester et finalement très bon',5,'2016-05-06 00:00:00');
 /*!40000 ALTER TABLE `Comment_Restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,14 +163,11 @@ DROP TABLE IF EXISTS `Dish`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Dish` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `RestaurantId` int(11) NOT NULL,
   `Name` text NOT NULL,
   `Description` text,
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Dish_Id_uindex` (`Id`),
-  KEY `Dish_Restaurant_fk` (`RestaurantId`),
-  CONSTRAINT `Dish_Restaurant_fk` FOREIGN KEY (`RestaurantId`) REFERENCES `Restaurant` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `Dish_Id_uindex` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,6 +176,7 @@ CREATE TABLE `Dish` (
 
 LOCK TABLES `Dish` WRITE;
 /*!40000 ALTER TABLE `Dish` DISABLE KEYS */;
+INSERT INTO `Dish` VALUES (1,'Noodles','Very good noodles!!!'),(2,'Pasta','better than noodles!');
 /*!40000 ALTER TABLE `Dish` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +194,7 @@ CREATE TABLE `Foodie` (
   UNIQUE KEY `Foodie_Id_uindex` (`Id`),
   KEY `Foodie_Base_User_fk` (`BaseUserId`),
   CONSTRAINT `Foodie_Base_User_fk` FOREIGN KEY (`BaseUserId`) REFERENCES `Base_User` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,8 +203,38 @@ CREATE TABLE `Foodie` (
 
 LOCK TABLES `Foodie` WRITE;
 /*!40000 ALTER TABLE `Foodie` DISABLE KEYS */;
-INSERT INTO `Foodie` VALUES (7,17);
+INSERT INTO `Foodie` VALUES (7,17),(8,19);
 /*!40000 ALTER TABLE `Foodie` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Link_Dish_Restaurant`
+--
+
+DROP TABLE IF EXISTS `Link_Dish_Restaurant`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Link_Dish_Restaurant` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `RestaurantId` int(11) NOT NULL,
+  `DishId` int(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Link_Dish_Restaurant_Id_uindex` (`Id`),
+  KEY `Link_Dish_Restaurant_Restaurant_fk` (`RestaurantId`),
+  KEY `Link_Dish_Restaurant_Dish_fk` (`DishId`),
+  CONSTRAINT `Link_Dish_Restaurant_Restaurant_fk` FOREIGN KEY (`RestaurantId`) REFERENCES `Restaurant` (`Id`),
+  CONSTRAINT `Link_Dish_Restaurant_Dish_fk` FOREIGN KEY (`DishId`) REFERENCES `Dish` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Link_Dish_Restaurant`
+--
+
+LOCK TABLES `Link_Dish_Restaurant` WRITE;
+/*!40000 ALTER TABLE `Link_Dish_Restaurant` DISABLE KEYS */;
+INSERT INTO `Link_Dish_Restaurant` VALUES (2,2,2),(3,2,1);
+/*!40000 ALTER TABLE `Link_Dish_Restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -313,7 +342,7 @@ CREATE TABLE `Restaurant` (
   UNIQUE KEY `Restaurant_Id_uindex` (`Id`),
   KEY `Restaurant_User_fk` (`BaseUserId`),
   CONSTRAINT `Restaurant_User_fk` FOREIGN KEY (`BaseUserId`) REFERENCES `Base_User` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,6 +351,7 @@ CREATE TABLE `Restaurant` (
 
 LOCK TABLES `Restaurant` WRITE;
 /*!40000 ALTER TABLE `Restaurant` DISABLE KEYS */;
+INSERT INTO `Restaurant` VALUES (1,18),(2,20);
 /*!40000 ALTER TABLE `Restaurant` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -334,4 +364,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-05  9:44:20
+-- Dump completed on 2016-05-07  2:50:20
