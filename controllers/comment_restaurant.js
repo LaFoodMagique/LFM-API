@@ -9,7 +9,7 @@ function REST_ROUTER(router,connection,md5, secretKey) {
 
 REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
     
-    router.get("/comment_restaurants", function(req, res) {
+    router.get("/comment_restaurants", function(req, res, next) {
 	var query = "SELECT * FROM Comment_Restaurant";
 	query = mysql.format(query, null);
 	connection.query(query, function(err, rows) {
@@ -22,7 +22,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.get("/comment_restaurants/:id", function(req, res) {
+    router.get("/comment_restaurants/:id", function(req, res, next) {
 	var query = "SELECT * FROM Comment_Restaurant WHERE Id = ?";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
@@ -36,7 +36,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.get("/foodies/:id/comment_restaurants", function(req, res) {
+    router.get("/foodies/:id/comment_restaurants", function(req, res, next) {
 	var query = "SELECT C.Id, R.Id as RestaurantId, BU.FirstName as Restaurant, C.Comment, C.Mark, C.CreationDate FROM Comment_Restaurant as C, Restaurant as R, Base_User as BU WHERE C.RestaurantId = R.Id AND R.BaseUserId = BU.Id AND FoodieId = 8 ORDER BY CreationDate DESC";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
@@ -50,7 +50,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.get("/restaurant/:id/comment_restaurants", function(req, res) {
+    router.get("/restaurant/:id/comment_restaurants", function(req, res, next) {
 	var query = "SELECT CR.Id, BU.FirstName, BU.LastName, CR.Mark, CR.Comment, CR.CreationDate FROM Comment_Restaurant as CR, Foodie as F, Base_User as BU WHERE CR.FoodieId = F.Id AND F.BaseUserId = BU.Id AND RestaurantId = ? ORDER BY CreationDate DESC;";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
@@ -64,7 +64,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.post("/foodies/:id/comment_restaurants", function(req, res) {
+    router.post("/foodies/:id/comment_restaurants", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
 	    if (response === req.body._token) {
 		nJwt.verify(response, secretKey, function(err, token) {
@@ -95,7 +95,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.put("/foodies/:id/comment_restaurants/:commentId", function(req, res) {
+    router.put("/foodies/:id/comment_restaurants/:commentId", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
 	    if (response === req.body._token) {
 		nJwt.verify(response, secretKey, function(err, token) {
@@ -129,7 +129,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.delete("/foodies/:id/comment_restaurants/:commentId", function(req, res) {
+    router.delete("/foodies/:id/comment_restaurants/:commentId", function(req, res, next) {
 	utils.getToken(connection, req.query.baseUserId, function(response) {
 	    if (response === req.query._token) {
 		var query = "DELETE FROM Comment_Restaurant WHERE Id = ?";

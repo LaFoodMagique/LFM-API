@@ -9,7 +9,7 @@ function REST_ROUTER(router,connection,md5, secretKey) {
 
 REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 
-    router.get("/dishes", function(req, res) {
+    router.get("/dishes", function(req, res, next) {
 	var query = "SELECT * FROM Dish";
 	query = mysql.format(query, null);
 	connection.query(query, function(err, rows) {
@@ -22,7 +22,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.get("/dishes/:id", function(req, res) {
+    router.get("/dishes/:id", function(req, res, next) {
 	var query = "SELECT * FROM Dish WHERE Id = ?";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
@@ -36,7 +36,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.post("/dishes", function(req, res) {
+    router.post("/dishes", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
 	    if (response === req.body._token) {
 		nJwt.verify(response, secretKey, function(err, token) {
@@ -65,7 +65,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.put("/dishes/:id", function(req, res) {
+    router.put("/dishes/:id", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
 	    if (response === req.body._token) {
                 nJwt.verify(response, secretKey, function(err, token) {
@@ -97,7 +97,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.get("/restaurants/:id/dishes", function(req, res) {
+    router.get("/restaurants/:id/dishes", function(req, res, next) {
 	var query = "SELECT D.Id, D.Name, D.Description, L.Id as LinkId FROM Dish as D, Link_Dish_Restaurant as L, Restaurant as R WHERE D.Id = L.DishId AND L.RestaurantId = R.Id AND R.Id = ?";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
@@ -111,7 +111,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.post("/restaurants/:id/dishes", function(req, res) {
+    router.post("/restaurants/:id/dishes", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
             if (response === req.body._token) {
                 nJwt.verify(response, secretKey, function(err, token) {
@@ -139,7 +139,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.delete("/restaurants/:id/dishes/:lId", function(req, res) {
+    router.delete("/restaurants/:id/dishes/:lId", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
             if (response === req.body._token) {
                 nJwt.verify(response, secretKey, function(err, token) {
