@@ -53,7 +53,7 @@ CREATE TABLE `Base_User` (
 
 LOCK TABLES `Base_User` WRITE;
 /*!40000 ALTER TABLE `Base_User` DISABLE KEYS */;
-INSERT INTO `Base_User` VALUES (17,'quentin','journet','qjournet2@gmail.com','5fee5ae1c5da17ee54b56abaa45e9355','012345678','12 rue gabriel péri',NULL,1,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiJlNmVkNzg0NS0xZjQzLTQ3MjItYTJlZS00OWEyMTE0N2E5YTkiLCJpYXQiOjE0NjI0NTg1MzAsImV4cCI6MTQ2MjQ2MjEzMH0.bYVIJdCPbgyZuPKESYzIcTbYY2xXfebN5a-2c5arCv4'),(18,'restaurant','restaurant','restaurant@gmail.com','6d4b62960a6aa2b1fff43a9c1d95f7b2','0123465789','12 rue',NULL,0,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiI1YjA1MjE0Ny01YTRjLTQ4MWQtYmVkZS0wOGUwZWM1NTUzOTciLCJpYXQiOjE0NjI0NTQzOTgsImV4cCI6MTQ2MjQ1Nzk5OH0.PqU_2VjRUDoMWVYxN_VX4o9KUbK1_YeAnmTucKgskO8'),(19,'foodie','foodie','foodie@foodie.com','889ea886e748fbd3dd317130a609f993','125489','dtc',NULL,1,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE5LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiJjNzEyNzFjMC1hNzI3LTQzZmUtYTA2Ny1mZGRhOTA0NDMwYjgiLCJpYXQiOjE0NjI1NTY2MTEsImV4cCI6MTQ2MjU2MDIxMX0.3XFPkNCu6RFHCzg7wA1YSP8YKYSlcqfLqlFr84pjZwA'),(20,'la bonne bouffe',NULL,'resto@resto.com','9c6350b0aa51300d30790de1192fbcf8','1246985','12 rue du resto',NULL,0,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiI0NTFlOWJkNS0wZDNjLTQ4MmUtYjA5YS1lYTA5MzRjYWE5MTMiLCJpYXQiOjE0NjI1NjA0MzQsImV4cCI6MTQ2MjU2NDAzNH0.kfTkJbU-fCnwkfwZtx5rjfcPgM-YAsuP_i7ziJnKvJo');
+INSERT INTO `Base_User` VALUES (17,'quentin','journet','qjournet2@gmail.com','5fee5ae1c5da17ee54b56abaa45e9355','012345678','12 rue gabriel péri',NULL,1,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiJlNmVkNzg0NS0xZjQzLTQ3MjItYTJlZS00OWEyMTE0N2E5YTkiLCJpYXQiOjE0NjI0NTg1MzAsImV4cCI6MTQ2MjQ2MjEzMH0.bYVIJdCPbgyZuPKESYzIcTbYY2xXfebN5a-2c5arCv4'),(18,'restaurant','restaurant','restaurant@gmail.com','6d4b62960a6aa2b1fff43a9c1d95f7b2','0123465789','12 rue',NULL,0,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE4LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiI1YjA1MjE0Ny01YTRjLTQ4MWQtYmVkZS0wOGUwZWM1NTUzOTciLCJpYXQiOjE0NjI0NTQzOTgsImV4cCI6MTQ2MjQ1Nzk5OH0.PqU_2VjRUDoMWVYxN_VX4o9KUbK1_YeAnmTucKgskO8'),(19,'foodie','foodie','foodie@foodie.com','889ea886e748fbd3dd317130a609f993','125489','dtc',NULL,1,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE5LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiJiMzYzNWRiMy1mODRhLTQxODItYTFhYy02ODM1MTY5ZWI1NmIiLCJpYXQiOjE0NjI2Mjk1NjksImV4cCI6MTQ2MjYzMzE2OX0.LTIA-cIOqZJkgANo80p12GbU8kk0Bgl_ImCzo_5Ghjw'),(20,'la bonne bouffe',NULL,'resto@resto.com','9c6350b0aa51300d30790de1192fbcf8','1246985','12 rue du resto',NULL,0,0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAiLCJqdGkiOiI2ZGZkODIwNC1iZGMwLTRiYjktYjg3MC1kYzY1NGRjMjZkMTUiLCJpYXQiOjE0NjI2MzA4MjcsImV4cCI6MTQ2MjYzNDQyN30.QDjT2dU8mzurZILg2yWCczqhbXIKFb6iN7A6Nw0Ao_k');
 /*!40000 ALTER TABLE `Base_User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +167,7 @@ CREATE TABLE `Dish` (
   `Description` text,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Dish_Id_uindex` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `Dish` (
 
 LOCK TABLES `Dish` WRITE;
 /*!40000 ALTER TABLE `Dish` DISABLE KEYS */;
-INSERT INTO `Dish` VALUES (1,'Noodles','Very good noodles!!!'),(2,'Pasta','better than noodles!');
+INSERT INTO `Dish` VALUES (1,'Noodles','Very good noodles!!!'),(2,'Pasta','better than noodles!'),(3,'pizza','très bon');
 /*!40000 ALTER TABLE `Dish` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,6 +205,31 @@ LOCK TABLES `Foodie` WRITE;
 /*!40000 ALTER TABLE `Foodie` DISABLE KEYS */;
 INSERT INTO `Foodie` VALUES (7,17),(8,19);
 /*!40000 ALTER TABLE `Foodie` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Interest`
+--
+
+DROP TABLE IF EXISTS `Interest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Interest` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` text NOT NULL,
+  `Mark` int(11) NOT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Interest_Id_uindex` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Interest`
+--
+
+LOCK TABLES `Interest` WRITE;
+/*!40000 ALTER TABLE `Interest` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Interest` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -250,11 +275,11 @@ CREATE TABLE `Link_Menu_Dish` (
   `DishId` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Link_Menu_Dish_Id_uindex` (`Id`),
-  KEY `Link_Menu_Dish_Menu_fk` (`MenuId`),
   KEY `Link_Menu_Dish_Dish_fk` (`DishId`),
-  CONSTRAINT `Link_Menu_Dish_Dish_fk` FOREIGN KEY (`DishId`) REFERENCES `Dish` (`Id`),
-  CONSTRAINT `Link_Menu_Dish_Menu_fk` FOREIGN KEY (`MenuId`) REFERENCES `Menu` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `Link_Menu_Dish_Menu_fk` (`MenuId`),
+  CONSTRAINT `Link_Menu_Dish_Menu_fk` FOREIGN KEY (`MenuId`) REFERENCES `Menu` (`Id`) ON DELETE CASCADE,
+  CONSTRAINT `Link_Menu_Dish_Dish_fk` FOREIGN KEY (`DishId`) REFERENCES `Dish` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,6 +288,7 @@ CREATE TABLE `Link_Menu_Dish` (
 
 LOCK TABLES `Link_Menu_Dish` WRITE;
 /*!40000 ALTER TABLE `Link_Menu_Dish` DISABLE KEYS */;
+INSERT INTO `Link_Menu_Dish` VALUES (2,1,2),(4,1,1),(5,3,2);
 /*!40000 ALTER TABLE `Link_Menu_Dish` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,7 +310,7 @@ CREATE TABLE `Menu` (
   UNIQUE KEY `Menu_Id_uindex` (`Id`),
   KEY `Menu_Restaurant_fk` (`RestaurantId`),
   CONSTRAINT `Menu_Restaurant_fk` FOREIGN KEY (`RestaurantId`) REFERENCES `Restaurant` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -293,6 +319,7 @@ CREATE TABLE `Menu` (
 
 LOCK TABLES `Menu` WRITE;
 /*!40000 ALTER TABLE `Menu` DISABLE KEYS */;
+INSERT INTO `Menu` VALUES (1,2,'PastaVsNoodle','qu\'elle est le meilleur pasta or noodle ?!',10,2),(3,2,'le test','test création menu in resto',12,2);
 /*!40000 ALTER TABLE `Menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,4 +391,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-07  2:50:20
+-- Dump completed on 2016-05-07 22:44:19
