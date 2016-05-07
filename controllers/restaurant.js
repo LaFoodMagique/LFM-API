@@ -36,7 +36,6 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	    }
 	});
     });
-
 }
 
 module.exports = REST_ROUTER;
