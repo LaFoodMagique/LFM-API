@@ -111,6 +111,19 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
+    router.get("/restaurants/:id/dishesNotUsed", function(req, res, next) {
+	var query = "SELECT * FROM Dish WHERE Id NOT IN (SELECT D.Id FROM Dish as D, Link_Menu_Dish AS L, Menu AS M, Restaurant as R WHERE R.Id = M.RestaurantId AND M.Id = L.MenuId AND L.DishId = D.Id AND R.Id = ?)";
+	var table = [parseInt(req.params.id)];
+	query = mysql.format(query, table);
+	connection.query(query, function(err, rows) {
+		if (err) {
+			res.json({"Error": true, "Message": "Error executing mysql query"});
+		} else {
+			res.json({"Error": false, "Message": "Success", "Dishes": rows});
+		}
+	});
+    });
+
     router.post("/restaurants/:id/dishes", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
             if (response === req.body._token) {
@@ -142,11 +155,6 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
     router.delete("/restaurants/:id/dishes/:lId", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
             if (response === req.body._token) {
-                nJwt.verify(response, secretKey, function(err, token) {
-                    if (err) {
-                        res.json({"Error": true, "Message" : "Your token is invalid"});
-                    }
-		    else {
 			var query = "DELETE FROM Link_Dish_Restaurant Where Id = ?"
 			var table = [parseInt(req.params.lId)];
 			query = mysql.format(query, table);
@@ -158,8 +166,6 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 				res.json({"Error": false, "Message" : "The dish is delete from your restaurant."});
 			    }
 			});
-		    }
-		});
 	    }
 	    else {
 		res.json({"Error": true, "Message" : "Your token is invalid"});		
