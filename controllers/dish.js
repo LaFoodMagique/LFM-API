@@ -55,7 +55,6 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 				res.json({"Error" : false, "Message" : "Dish added"});
 			    }
 			});
-			console.log(query);
 		    }
 		});
 	    }
@@ -112,7 +111,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
     });
 
     router.get("/restaurants/:id/dishesNotUsed", function(req, res, next) {
-	var query = "SELECT * FROM Dish WHERE Id NOT IN (SELECT D.Id FROM Dish as D, Link_Menu_Dish AS L, Menu AS M, Restaurant as R WHERE R.Id = M.RestaurantId AND M.Id = L.MenuId AND L.DishId = D.Id AND R.Id = ?)";
+	var query = "SELECT * FROM Dish WHERE Id NOT IN (SELECT D.Id FROM Dish as D, Link_Dish_Restaurant AS L, Restaurant as R WHERE R.Id = L.RestaurantId AND L.DishId = D.Id AND R.Id = ?)";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
 	connection.query(query, function(err, rows) {
@@ -153,19 +152,19 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
     });
 
     router.delete("/restaurants/:id/dishes/:lId", function(req, res, next) {
-	utils.getToken(connection, req.body.baseUserId, function(response) {
-            if (response === req.body._token) {
-			var query = "DELETE FROM Link_Dish_Restaurant Where Id = ?"
-			var table = [parseInt(req.params.lId)];
-			query = mysql.format(query, table);
-			connection.query(query, function(err, rows) {
-			    if (err) {
-				res.json({"Error" : true, "Message" : "Error executing MySQL query"});		
-			    }
-			    else {
-				res.json({"Error": false, "Message" : "The dish is delete from your restaurant."});
-			    }
-			});
+	utils.getToken(connection, req.query.baseUserId, function(response) {
+            if (response === req.query._token) {
+		var query = "DELETE FROM Link_Dish_Restaurant Where Id = ?"
+		var table = [parseInt(req.params.lId)];
+		query = mysql.format(query, table);
+		connection.query(query, function(err, rows) {
+		    if (err) {
+			res.json({"Error" : true, "Message" : "Error executing MySQL query"});		
+		    }
+		    else {
+			res.json({"Error": false, "Message" : "The dish is delete from your restaurant."});
+		    }
+		});
 	    }
 	    else {
 		res.json({"Error": true, "Message" : "Your token is invalid"});		
