@@ -10,8 +10,8 @@ function REST_ROUTER(router,connection,md5, secretKey) {
 REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
     
     router.get("/restaurants/:id/menus", function(req, res, next) {
-	var query = "SELECT M.Id, M.Name, M.Description, CONCAT('[', GROUP_CONCAT(CONCAT('{\"Name\":\"', D.Name, '\", \"Description\":\"', D.Description,'\", \"Id\":', D.Id,'}')), ']') as Dish FROM Menu as M, Link_Menu_Dish AS L, Dish AS D, Restaurant AS R WHERE M.Id = L.MenuId AND L.DishId = D.Id AND M.RestaurantId = R.Id AND R.Id = ? GROUP BY M.Id;";
-	var table = [parseInt(req.params.id)];
+	var query = "SELECT T1.Id, T1.Name, T1.Description, T1.Dish, T2.Mark FROM (SELECT M.Id, M.Name, M.Description, CONCAT('[', GROUP_CONCAT(CONCAT('{\"Name\":\"', D.Name, '\", \"Description\":\"', D.Description, '\", \"Id\":', D.Id, '}')), ']') AS Dish FROM Menu AS M, Link_Menu_Dish AS L, Dish AS D, Restaurant AS R WHERE M.Id = L.MenuId AND L.DishId = D.Id AND M.RestaurantId = R.Id AND R.Id = ? GROUP BY M.Id) AS T1 LEFT JOIN (SELECT M.Id, M.Name, M.Description, CONCAT('[', GROUP_CONCAT(CONCAT('{\"Name\":\"', D.Name, '\", \"Description\":\"', D.Description, '\", \"Id\":', D.Id, '}')), ']') AS Dish, AVG(C.Mark) AS Mark FROM Menu AS M, Link_Menu_Dish AS L, Dish AS D, Restaurant AS R, Comment_Menu AS C WHERE M.Id = L.MenuId AND L.DishId = D.Id AND M.RestaurantId = R.Id AND C.MenuId = M.Id AND R.Id = ? GROUP BY M.Id) AS T2 ON T1.Id = T2.Id";
+	var table = [parseInt(req.params.id), parseInt(req.params.id)];
 	query = mysql.format(query, table);
 	connection.query(query, function(err, rows) {
 	    if (err) {

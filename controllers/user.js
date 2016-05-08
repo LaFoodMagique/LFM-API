@@ -98,8 +98,8 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
-    router.put("/users", function(req, res, next) {
-	utils.getToken(connection, req.body.id, function(response) {
+    router.put("/users/:id", function(req, res, next) {
+	utils.getToken(connection, req.body.baseUserId, function(response) {
 	    if (response === req.body._token) {
 		nJwt.verify(response, secretKey, function(err, token) {
 		    if (err) {
@@ -107,24 +107,45 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 		    }
 		    else {
 			var query = "UPDATE Base_User SET"
-			if (req.body.firstName) {query = query + " FirstName = " + utils.toString(req.body.firstName) + ",";}
-			if (req.body.lastName) {query = query + " LastName = " + utils.toString(req.body.lastName) + ",";}
-			if (req.body.email) {query = query + " Email = " + utils.toString(req.body.email) + ",";}
-			if (req.body.password) {query = query + " Password = " + utils.toString(md5(req.body.password)) + ",";}
-			if (req.body.phone) {query = query + " Phone = " + utils.toString(req.body.phone) + ",";}
-			if (req.body.addressPart1) {query = query + " AddressPart1 = " + utils.toString(req.body.AddressPart1) + ",";}
-			if (req.body.addressPart2) {query = query + " AddressPart2 = " + utils.toString(req.body.AddressPart2) + ",";}
-			if (req.body.idFoodie) {query = query + " IsFinish = " + Boolean(req.body.isFinish)+ ",";}
+			if (req.body.FirstName) {query = query + " FirstName = " + utils.toString(req.body.FirstName) + ",";}
+			if (req.body.LastName &&  req.body.LastName  != undefined) {query = query + " LastName = " + utils.toString(req.body.LastName) + ",";}
+			if (req.body.Email) {query = query + " Email = " + utils.toString(req.body.Email) + ",";}
+			if (req.body.Phone) {query = query + " Phone = " + utils.toString(req.body.Phone) + ",";}
+			if (req.body.AddressPart1) {query = query + " AddressPart1 = " + utils.toString(req.body.AddressPart1) + ",";}
+			if (req.body.AddressPart2 && req.body.AddressPart2 != undefined) {query = query + " AddressPart2 = " + utils.toString(req.body.AddressPart2) + ",";}
+			if (req.body.IsFoodie) {query = query + " IsFoodie = " + Boolean(req.body.isFoodie)+ ",";}
 			query = query.substring(0, query.length - 1);
 			query = query + " WHERE Id = ?";
-			var table = [parseInt(req.body.id)];
+			var table = [parseInt(req.params.id)];
 			query = mysql.format(query, table);
 			connection.query(query, function(err, rows) {
 			    if (err) {
 				res.json({"Error" : true, "Message" : "Error executing MySQL query"});
 			    }
 			    else {
-				res.json({"Error" : false, "Message" : "User updated"});
+				console.log(req.body.IsFoodie);
+				if (req.body.IsFoodie == "0") {
+				    console.log("coucou");
+				    query = "UPDATE Restaurant SET";
+				    if (req.body.OpenHour) {query = query + " OpenHour = '" + req.body.OpenHour + "',";}
+				    if (req.body.CloseHour) {query = query + " CloseHour = '" + req.body.CloseHour + "',";}
+				    query = query.substring(0, query.length - 1);
+				    query = query + " WHERE Id = ?";
+				    table = [parseInt(req.body.RestaurantId)];
+				    query = mysql.format(query, table);
+				    connection.query(query, function(err, rows) {
+					if (err) {
+					    res.json({"Error" : true, "Message" : "Your Token is invalid."});
+					}
+					else {
+					    res.json({"Error" : false, "Message" : "User updated"});
+					}
+				    });
+				    console.log(query);
+				}
+				else {
+				    res.json({"Error" : false, "Message" : "User updated"});
+				}
 			    }
 			});
 		    }
@@ -195,7 +216,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 				query = query + "SELECT Id FROM Foodie WHERE BaseUserId = ?";
 			    }
 			    else {
-				query = query + "SELECT Id FROM Restaurant WHERE BaseUserId = ?";
+				query = query + "SELECT * FROM Restaurant WHERE BaseUserId = ?";
 			    }
 			    var table = [parseInt(User.Id)];
 			    query = mysql.format(query, table);
@@ -209,6 +230,8 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 				    }
 				    else {
 					User.RestaurantId = rows[0].Id;
+					User.OpenHour = rows[0].OpenHour;
+					User.CloseHour = rows[0].CloseHour;
 				    }
 				    res.json({"Error" : false, "Message" : "You are connected.", "User" : User});
 				}
