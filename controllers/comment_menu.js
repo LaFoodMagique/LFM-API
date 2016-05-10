@@ -9,6 +9,32 @@ function REST_ROUTER(router,connection,md5, secretKey) {
 
 REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 
+    /**
+     * @api {get} /restaurants/:id/menus/:idmenu/commentes Get comment of a Menu of a Restaurant
+     * @apiName Get Comment of a Menu of a Restaurant
+     * @apiGroup Restaurant
+     *
+     * @apiSuccessExample Success-Response:
+     *   {
+     *     "Error" : false,
+     *     "Message" : "Success"
+     *     "Comment_menu" : [
+     *       {    
+     *         "Comment": "les pates",
+     *         "Mark": 5,
+     *         "Name": "foodie"
+     *       },
+     *       .......
+     *     ]
+     *   }
+     *
+     * @apiErrorExample Error-Response:
+     *   {
+     *     "Error" : true,
+     *     "Message" : "Error executing MySQL query"
+     *   }
+     *
+     */
     router.get("/restaurants/:id/menus/:idmenu/comments", function(req, res, next){
 	var query = "SELECT C.Comment, C.Mark, BU.FirstName AS Name FROM Comment_Menu AS C, Foodie AS F, Base_User AS BU WHERE C.FoodieId = F.Id AND F.BaseUserId = BU.Id AND MenuId = ?";
 	var table = [parseInt(req.params.idmenu)];
@@ -21,7 +47,32 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	    }
 	});
     });
-    
+  
+  
+    /**
+     * @api {post} /restaurants/:id/menus/:idmenu/comments Post a Comment on a Menu of a Restaurant
+     * @apiName Post a Comment on a Menu of a Restaurant
+     * @apiGroup Restaurant
+     *
+     * @apiParams {Int} baseUserId Provide by the API.
+     * @apiParams {String} _token Provide by thr API.
+     * @apiParams {Int} foodieId Id of the foodie who post the comment.
+     * @apiParams {String} comment Comment of the foodie.
+     * @apiParams {Int} mark Mark given by the foodie.
+     *
+     * @apiSuccessExample Success-Response:
+     *   {
+     *    "Error" : false,
+     *    "Message" : "Commentaire added"
+     *   }
+     *
+     * @apiErrorExample Error-Response:
+     *   {
+     *     "Error" : true,
+     *     "Message" : "Error executing MySQL query"
+     *   }
+     *
+     */
     router.post("/restaurants/:id/menus/:idmenu/comments", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response){
 	    if (response === req.body._token) {
@@ -52,6 +103,29 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
     
+
+    
+    /**
+     * @api {delete} /restaurants/:id/menus/:idmenu/comments/:idcomment Delete a comment of Menu of Restaurant
+     * @apiName Delte a comment of Menu of Restaurant
+     * @apiGroup Restaurant
+     *
+     * @apiParams {Int} baseUserId Provide by the API. In url (ex: ?baseUserId...)
+     * @apiParams {String} _token Token provide by the API.
+     *
+     * @apiSuccessExample Success-Response:
+     *   {
+     *     "Error" : false,
+     *     "Message" : "Error executing MySQL query"
+     *   }
+     *
+     * @apiErrorExample Error-Response:
+     *   {
+     *     "Error" : true,
+     *     "Message" : "Error executing MySQL query"
+     *   }
+     *
+     */
     router.delete("/restaurants/:id/menus/:idmenu/comments/:idcomment", function(req, res, next) {
 	utils.getToken(connection, req.body.baseUserId, function(response) {
 	    if (response == req.query._token) {
