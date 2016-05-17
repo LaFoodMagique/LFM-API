@@ -157,7 +157,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 			res.json({"Error": true, "Message" : "Your token is invalid"});
 		    }
 		    else {
-			var query = "INSERT INTO Comment_Restaurant (FoodieId, RestaurantId, Comment, Mark, CreationDate) VALUES (?, ?, ?, ?, CURDATE())";
+			var query = "INSERT INTO Comment_Restaurant (FoodieId, RestaurantId, Comment, Mark, CreationDate) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)";
 			var table = [parseInt(req.params.id),
 				     parseInt(req.body.restaurantId),
 				     req.body.comment,
@@ -279,6 +279,19 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	    }
 	    else {
 		res.json({"Error": true, "Message" : "Your token is invalid"});
+	    }
+	});
+    });
+
+    router.get("/commentsHomePage", function(req, res, next) {
+	var query = "SELECT T1.CId AS commentId, T1.FirstName AS FirstName, T1.LastName AS LastName, T1.Comment AS Comment, T1.Mark AS Mark, T2.FirstName AS RestaurantName FROM (SELECT C.Id AS CId, BU.FirstName, BU.LastName, F.Id, C.Comment, C.Mark FROM Comment_Restaurant AS C, Foodie AS F, Base_User AS BU WHERE C.FoodieId = F.Id AND F.BaseUserId = BU.Id) AS T1 LEFT JOIN (SELECT C.Id AS CId, BU.FirstName FROM Comment_Restaurant AS C, Restaurant AS R, Base_User AS BU WHERE C.RestaurantId = R.Id AND R.BaseUserId = BU.Id) AS T2 ON T1.CId = T2.CId limit 10";
+	query = mysql.format(query, null);
+	connection.query(query, function(err, rows) {
+	    if (err) {
+		res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+	    }
+	    else {
+		res.json({"Error" : false, "Message" : "Success", "Comments" : rows});
 	    }
 	});
     });

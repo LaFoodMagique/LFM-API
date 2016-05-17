@@ -154,6 +154,27 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	    }
 	});
     });
+
+    router.delete("/foodies/:id/reservations/:reservationId", function (req, res, next) {
+        utils.getToken(connection, req.query.baseUserId, function(response) {
+            if (response === req.query._token) {
+                var query = "DELETE FROM Reservation Where Id = ?";
+                var table = [parseInt(req.params.reservationId)];
+                query = mysql.format(query, table);
+                connection.query(query, function(err, rows) {
+                    if (err) {
+                        res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+                    }
+                    else {
+                        res.json({"Error" : false, "Message" : "The dish is delete from your menu."});
+                    }
+                });
+            }
+            else {
+                res.json({"Error": true, "Message" : "Your token is invalid"});
+            }
+        });
+    });
 }
 
 

@@ -237,7 +237,6 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 			if (req.body.Phone) {query = query + " Phone = " + utils.toString(req.body.Phone) + ",";}
 			if (req.body.AddressPart1) {query = query + " AddressPart1 = " + utils.toString(req.body.AddressPart1) + ",";}
 			if (req.body.AddressPart2 && req.body.AddressPart2 != undefined) {query = query + " AddressPart2 = " + utils.toString(req.body.AddressPart2) + ",";}
-			if (req.body.IsFoodie) {query = query + " IsFoodie = " + Boolean(req.body.isFoodie)+ ",";}
 			query = query.substring(0, query.length - 1);
 			query = query + " WHERE Id = ?";
 			var table = [parseInt(req.params.id)];

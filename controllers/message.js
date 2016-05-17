@@ -97,6 +97,33 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
     
+    router.get("/foodies/:id/contacts", function(req, res, next) {
+	var query = "SELECT BU.FirstName, BU.LastName, F.Id FROM Foodie AS F, Message AS M, Base_User AS BU WHERE M.SenderId = F.Id AND F.BaseUserId = BU.Id AND M.SenderId != ? GROUP BY F.BaseUserId";
+	var table = [parseInt(req.params.id)];
+	query = mysql.format(query, table);
+	connection.query(query, function(err, rows) {
+	    if (err) {
+		res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+	    }
+	    else {
+		res.json({"Error" : false, "Message" : "Success", "Contacts" : rows});
+	    }
+	});
+    });
+
+    router.get("/foodies/:id/contacts/:contactId", function(req, res, next) {
+	var query = "SELECT * FROM Foodie AS F, Message AS M WHERE M.ReceiverId = F.Id AND (F.Id = ? OR F.Id = ?)ORDER BY Creation DESC";
+	var table = [parseInt(req.params.id), parseInt(req.params.contactId)];
+	query = mysql.format(query, table);
+	connection.query(query, function(err, rows) {
+	    if (err) {
+		res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+	    }
+	    else {
+		res.json({"Error" : false, "Message" : "Success", "Messages" : rows});
+	    }
+	});
+    });
 }
 
 module.exports = REST_ROUTER;

@@ -63,6 +63,23 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	    }
 	});
     });
+
+    router.post("/restaurants/:id/dishes/:dishId/comments", function(req, res, next) {
+	var query = "INSERT INTO Comment_Dish (DishId, FoodieId, Comment, Mark, CreationDate) VALUES (?, ?, ?, ?, CURDATE()";
+	var table = [parseInt(req.params.dishId),
+		     parseInt(req.params.id),
+		     req.body.comment,
+		     req.body.mark];
+	query = mysql.format(query, table);
+	connection.query(query, function(err, rows) {
+	    if (err) {
+		res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+	    }
+	    else {
+		res.json({"Error" : false, "Message" : "Comment added."});
+	    }
+	});
+    });
 	
 }
 
