@@ -154,6 +154,60 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
 	});
     });
 
+    router.get("/foodies/:id/comments", function(req, res, next) {
+	var queryR = "SELECT F.Id, R.Comment, R.Mark, R.CreationDate, BU.FirstName, BU.LastName FROM Comment_Restaurant AS R, Foodie AS F, Base_User AS BU WHERE R.FoodieId = F.Id AND F.Id = ? AND F.BaseUserId = BU.Id";
+	var table = [parseInt(req.params.id)];
+	queryR = mysql.format(queryR, table);
+	connection.query(queryR, function(err, rows) {
+            if (err) {
+                res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+            }
+            else {
+		var commentR = rows;
+		var queryM = "SELECT F.Id, M.Comment, M.Mark, M.CreationDate, BU.FirstName, BU.LastName FROM Comment_Menu AS M, Foodie AS F, Base_User AS BU WHERE M.FoodieId = F.Id AND F.Id = ? AND F.BaseUserId = BU.Id";
+		queryM = mysql.format(queryM, table);
+		connection.query(queryM, function(err, rows) {
+		    if (err) {
+			res.json({"Error" : true, "Message" : "Error executing MySQL query"});			
+		    }
+		    else {
+			var commentM = rows;
+			var queryD = "SELECT F.Id, D.Comment, D.Mark, D.CreationDate, BU.FirstName, BU.LastName FROM Comment_Dish AS D, Foodie AS F, Base_User AS BU WHERE D.FoodieId = F.Id AND F.Id = ? AND F.BaseUserId = BU.Id";
+			queryD = mysql.format(queryM, table);
+			connection.query(queryM, function(err, rows) {
+			    if (err) {
+				res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+			    }
+			    else {
+				var commentD = rows;
+				var comments = [];
+				for (var i = 0; i < commentR.length; i++) {
+				    commentR[i].isRestaurant = true;
+				    commentR[i].isMenu = false;
+				    commentR[i].isDish = false;
+				    comments.push(commentR[i]);
+				}
+				for (var i = 0; i < commentM.length; i++) {
+				    commentM[i].isRestaurant = false;
+				    commentM[i].isMenu = true;
+				    commentM[i].isDish = false;
+				    comments.push(commentM[i]);
+				}
+				for (var i = 0; i < commentD.length; i++) {
+				    commentD[i].isRestaurant = false;
+				    commentD[i].isMenu = false;
+				    commentD[i].isDish = true;
+				    comments.push(commentD[i]);
+				}
+				res.json({"Error" : false, "Message" : "Success", "Comments" : comments});
+			    }
+			});
+		    }
+		});
+            }
+        });
+    });
+
 }
 
 module.exports = REST_ROUTER;
