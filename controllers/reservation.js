@@ -41,7 +41,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5, secretKey) {
      *
      */
     router.get("/restaurant/:id/reservations", function(req, res, next){
-	var query = "SELECT * FROM Reservation WHERE RestaurantId = ?";
+	var query = "SELECT R.Id, R.Comment, R.Date, R.Hour, R.NbPerson, BU.FirstName, BU.LastName, BU.Email, BU.Phone FROM Reservation AS R, Foodie AS F, Base_User AS BU WHERE R.FoodieId = F.Id AND F.BaseUserId = BU.Id AND R.RestaurantId = ?";
 	var table = [parseInt(req.params.id)];
 	query = mysql.format(query, table);
 	connection.query(query, function(err, rows) {
